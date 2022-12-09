@@ -1,0 +1,110 @@
+//快速合并两个集合 近乎o1的时间去查询
+
+public class unionFind{
+	int[] id;
+	int count;
+
+	unionFind(int n){
+		count = n;
+		id =  new int[n];
+		for(int i=0;i<n;i++) id[i]=i;
+	}
+
+	int getCount(){
+		return count;
+	}
+
+	boolean connected(int p,int q){
+		return find(p)==find(q);
+	}
+
+//基础union find	
+	int find(int p){
+		return id[p];
+	}
+
+	void union(int p,int q){
+		int pRoot = find(p);
+		int qRoot = find(q);
+
+		if(pRoot==qRoot) return;
+
+		for(int i=0;i<id.length;i++){
+			if(id[i]==pRoot) id[i]=qRoot;
+		}
+		count--;
+	}
+
+//普通union find与quick union find里最大的差别就是在普通union find 里面
+//认老大是所有人都认  3>5 then 7>3 == 7>5&&7>3 3与5同级别
+//quick union里 3>5 then 7>3 == 7>3>5 3与5不同级别
+//所以quick union里的结构有点像树形结构
+
+//quick union find
+	int find(int p){
+		while(p!=id[p]) p=id[p];
+		return p;
+	}
+
+	void union(int p,int q){
+		int pRoot = find(p);
+		int qRoot = find(q);
+
+		if(pRoot == qRoot) return;
+
+		id[pRoot] = qRoot;
+		count--;
+	}
+}
+
+//加权值quick union
+
+public class WeightQuickUnion{
+	int[] id;
+	int count;
+	int[] sz;
+
+	public WeightedQuickUnion(int n){
+		count = n;
+		id = new int[n];
+		sz = new int[n];
+		for(int i=0;i<n;i++){
+			id[i]=i;
+			sz[i]=i;
+		}
+	}
+
+	int getCount(){
+		return count;
+	}
+
+	boolean connected(int p,int q){
+		return find(p)==find(q);
+	}
+
+	int find(int p){
+		if(p!=id[p]) id[p]=find(id[p]);
+		return id[p];
+	}
+
+	void union(int p,int q){
+		int pRoot =find(p);
+		int qRoot = find(q);
+
+		if(pRoot==qRoot) return;
+
+		if(sz[pRoot]<sz[qRoot]) {id[pRoot]=qRoot; sz[qRoot]+=sz[pRoot]};
+		else {id[pRoot]=qRoot; sz[pRoot]+=sz[qRoot]};
+	}
+}
+
+
+
+	                                           存在N伙强盗增长数量级(最坏情况)
+      算法                           构造函数        union()         find()
+	
+union-find算法                         O(n)          O(n)            O(1) 
+quick-union算法                        O(n)         树的高度         树的高度
+加权quick-union算法                     O(n)         O(lgn)          O(lgn)
+路径压缩的加权quick-union算法            O(n)         非常接近O(1)     非常接近O(1)
+理想情况                                O(n)          O(1)            O(1)

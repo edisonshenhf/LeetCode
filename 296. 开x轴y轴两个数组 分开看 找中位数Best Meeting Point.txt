@@ -1,0 +1,30 @@
+class Solution {
+    public int minTotalDistance(int[][] grid) {
+        int[] row = new int[grid.length];
+        int[] col = new int[grid[0].length];
+        int cnt =0;
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(grid[i][j]==1){
+                    row[i]++;
+                    col[j]++;
+                    cnt++;
+                }
+            }
+        }
+        return distance(row,cnt)+distance(col,cnt);
+    }
+
+    int distance(int[] points,int cnt){
+        int idx =0;
+        int curSum = points[0];
+        while(idx<points.length&&curSum<(cnt/2+1)){
+            curSum+=points[++idx];// everybody's solution was using median to get shortest meeting point
+        }
+        int distance = 0;
+        for(int i=0;i<points.length;i++){
+            distance+=points[i]*Math.abs(i-idx);
+        }
+        return distance;
+    }
+}

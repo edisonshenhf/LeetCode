@@ -1,0 +1,35 @@
+//二叉搜索树 中序遍历是从大到小排列的
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int res;
+    int kth;
+    public int kthSmallest(TreeNode root, int k) {
+        kth=k;
+        dfs(root);
+        return res;
+    }
+    boolean dfs(TreeNode root){
+        if(root==null) return false;
+        if(dfs(root.left)) return true;
+        if(--kth==0){
+            res=root.val;
+            return true;
+        }
+        return dfs(root.right);
+    }
+}

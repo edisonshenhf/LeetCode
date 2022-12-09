@@ -1,0 +1,14 @@
+//a^b被称为 不进位的加法
+//a&b记录所有要进位的1 <<1左移一位就是进位
+//题目可分解为a&b<<1 + a^b
+//a&b<<1无限左移会移成32位都是0
+//所以求getSum(a&b<<1,a^b)就可以了
+
+class Solution {
+    public int getSum(int a, int b) {
+        if(a==0) return b;
+        if(b==0) return a;
+        int sum=a^b,carry=(a&b)<<1;
+        return getSum(sum,carry);
+    }
+}

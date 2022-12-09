@@ -1,0 +1,44 @@
+//基础思想
+//举例 2 3 4 5 6 7 8 9 10 11 12
+//从最小的质数开始筛
+//筛2  x 3 x 5 x 7 x 9 x 11 x 
+//筛3  x x x 5 x 7 x x x 11 x
+//筛4  x x x 5 x 7 x x x 11 x
+//筛5 x x x x x 7 x x x 11 x
+//规律在这一刻已经出来了 就是从2开始筛 如果筛到这个数n还没有被筛掉 说明从2--n-1都无法整除n说明n是质数
+//缺点:多次遍历数组 n*ln(n)级别的算法小于nlog2n但可以记成nlogn
+//优化:不需要遍历2--n-1只需要遍历2--n-1中的质数就可以了
+//定理:1-n中有n/ln(n)个质数 所以相比起原n*ln(n)/ln(n)约等于n级别的算法
+//这个算法的名称为埃拉托斯特尼筛法 古希腊人 但这题埃氏筛法过不去
+//在10的6次方级别时 埃氏筛法和线性筛法时间几乎一样 但是到10的7次方级别 线性筛法要快一倍
+//但是这题用线性筛法筛做出来很慢 因为Java维护一个size不定的ArrayList速度很慢
+//答案算法
+class Solution {
+    public int countPrimes(int n) {
+        boolean[] notPrime = new boolean[n+1];
+        int res = 0;
+        for(int i=2;i<n;i++){
+            if(notPrime[i]) continue;
+            res++;
+            for(int j=2;j*i<n;j++){
+                notPrime[i*j]=true;
+            }
+        }
+        return res;
+    }
+}
+//线性筛法
+class Solution {
+    public int countPrimes(int n) {
+        boolean[] st = new boolean[n+1];
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i=2;i<n;i++){
+            if(!st[i]) list.add(i);
+            for(int j=0;i*list.get(j)<n;j++){
+                st[i*list.get(j)]=true;
+                if(i%list.get(j)==0) break;
+            }
+        }
+        return list.size();
+    }
+}

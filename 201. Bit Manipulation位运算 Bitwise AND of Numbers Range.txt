@@ -1,0 +1,18 @@
+//关键在于
+//xxxx0------(left)与xxxx1-----(right)中的第一位不相同位数后
+//会有xxxx011111>=left(在区间内)与xxxx100000<=right(也在区间内)
+//所以两者通过与运算以后为xxxx000000所以在第一位出现不同后后面都是0
+//直接从最大位数右移 如果这位相同且为1 res+=1<<i;
+//出现不同的位数直接break
+//求出答案
+
+class Solution {
+    public int rangeBitwiseAnd(int left, int right) {
+        int res = 0;
+        for(int i=30;i>=0;i--){
+            if((left>>i&1)!=(right>>i&1)) break;
+            if((left>>i&1)==1) res+=1<<i;
+        }
+        return res;
+    }
+}

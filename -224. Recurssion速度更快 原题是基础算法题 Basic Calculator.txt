@@ -1,0 +1,77 @@
+class Solution {
+    // Recursion with class member
+    private int i;
+    public int calculate(String s) {
+        int result = 0;
+        int operand = 0;
+        int sign = 1;
+        while (i < s.length()) {
+            char c = s.charAt(i++);
+            if (Character.isDigit(c)) {
+                operand = operand * 10 + c - '0';
+            } else if (c == '+' || c == '-') {
+                result += sign * operand;
+                sign = c == '+' ? 1 : -1;
+                operand = 0;
+            } else if (c == '(') {
+                operand = calculate(s);
+            } else if (c == ')') {
+                break;
+            }
+        }
+        return result + sign * operand;
+    }
+}
+
+class Solution {
+    public int calculate(String s) {
+        HashMap<Character,Integer> map = new HashMap<>();
+        map.put('+',1);
+        map.put('-',1);
+        map.put('(',2);
+        StringBuilder sb = new StringBuilder();
+        for(char c:s.toCharArray()){
+            if(c!=' ') sb.append(c);
+        }
+        s=sb.toString();
+        char[] chars = s.toCharArray();
+        Stack<Integer> num = new Stack<>();
+        Stack<Character> op = new Stack<>();
+        for(int i=0;i<chars.length;i++){
+            char c = chars[i];
+            if(c>='0'&&c<='9'){
+                int j = i;
+                int n = 0;
+                while(j<chars.length&&chars[j]>='0'&&chars[j]<='9'){
+                    n*=10;
+                    n+=chars[j]-'0';
+                    j++;
+                }
+                i=j-1;
+                num.push(n);
+            }else if(c==')'){
+                while(op.peek()!='('){
+                    eval(op,num);
+                }
+                op.pop();
+            }else{
+                if(i==0||chars[i-1]=='(') num.push(0);
+                while(!op.isEmpty()&&op.peek()!='('&&map.get(op.peek())>=map.get(c)){
+                    eval(op,num);
+                }
+                op.push(c);
+            }
+        }
+        while(!op.isEmpty()) eval(op,num);
+        // System.out.println(num.size());
+        return num.peek();
+    }
+
+    void eval(Stack<Character> op,Stack<Integer> num){
+        int b = num.pop();
+        int a = num.pop();
+        char c = op.pop();
+        if(c=='+') num.push(a+b);
+        if(c=='-') num.push(a-b);
+    }
+}

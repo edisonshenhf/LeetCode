@@ -1,0 +1,18 @@
+//开两个哈希表表示映射关系
+
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        HashMap<Character,Character> st = new HashMap<>();
+        HashMap<Character,Character> ts = new HashMap<>();
+        int n = s.length();
+        for(int i =0;i<n;i++){
+            char cs = s.charAt(i);
+            char ct = t.charAt(i);
+            if(st.containsKey(cs)&&st.get(cs)!=ct) return false;
+            st.put(cs,ct);
+            if(ts.containsKey(ct)&&ts.get(ct)!=cs) return false;
+            ts.put(ct,cs);
+        }
+        return true;
+    }
+}

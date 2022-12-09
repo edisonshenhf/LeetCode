@@ -1,0 +1,75 @@
+//更快速的做法
+
+class Solution {
+    public int calculate(String s) {
+        int num=0, last=0, sum=0;
+        char op = '+';
+        for(int i=0;i<s.length();i++) {
+            char c = s.charAt(i);
+            if(Character.isDigit(c)) {
+                num=num*10+(c-'0');
+            }
+            if(isOperator(c)||i==s.length()-1) {
+                if(op=='+') {
+                    sum+=last;
+                    last=num;
+                } else if(op=='-') {
+                    sum+=last;
+                    last=-num;
+                } else if(op=='*') {
+                    last*=num;
+                } else if(op=='/') {
+                    last/=num;
+                }
+                num=0;
+                op=c;
+            }
+        }
+        return sum+last;
+    }
+    private boolean isOperator(char c) {
+        return c == '+' || c == '-' || c == '*' || c == '/';
+    }
+}
+
+//朴素做法
+class Solution {
+    Stack<Integer> num = new Stack<>();
+    Stack<Character> op = new Stack<>();
+    HashMap<Character,Integer> map = new HashMap<>();
+    public int calculate(String s) {
+        map.put('+', 1);
+        map.put('-', 1);
+        map.put('*', 2);
+        map.put('/', 2);
+        for(int i=0;i<s.length();i++){
+            char c = s.charAt(i);
+            if(c==' ') continue;
+            if(c>='0'&&c<='9'){
+                int n = 0;
+                int j = i;
+                while(j<s.length()&&s.charAt(j)>='0'&&s.charAt(j)<='9'){
+                    n*=10;
+                    n+=s.charAt(j)-'0';
+                    j++;
+                }
+                num.push(n);
+                i=j-1;
+            }else{
+                while(!op.isEmpty() && map.get(op.peek()) >= map.get(c)) eval(op,num);
+                op.push(c);
+            }
+        }
+        while(!op.isEmpty()) eval(op,num);
+        return num.peek();
+    }
+    void eval(Stack<Character> op,Stack<Integer> num){
+        int b = num.pop();
+        int a = num.pop();
+        char c = op.pop();
+        if(c=='+') num.push(a+b);
+        if(c=='-') num.push(a-b);
+        if(c=='*') num.push(a*b);
+        if(c=='/') num.push(a/b);
+    }
+}

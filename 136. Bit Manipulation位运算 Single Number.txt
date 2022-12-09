@@ -1,0 +1,12 @@
+//位运算 XOr异或运算
+//最基础的位运算
+//a^b^b^c^c=a^0^0=a;
+
+
+class Solution {
+    public int singleNumber(int[] nums) {
+        int res = 0;
+        for(var x : nums) res^=x;
+        return res;
+    }
+}

@@ -1,0 +1,19 @@
+//通过n&(n-1)把最右的一位1移除
+//例如 计算1111(15)时
+//1111&1110=1110 cnt=1
+//1110&1101=1100 cnt=2
+//1100&1010=1000 cnt=3
+//1000&0100=0000 cnt=4
+//每次取一位1 取4位后结束其值为0000(0)
+
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        int res =0;
+        while(n!=0){
+            n&=(n-1);
+            res++;
+        }
+        return res;
+    }
+}

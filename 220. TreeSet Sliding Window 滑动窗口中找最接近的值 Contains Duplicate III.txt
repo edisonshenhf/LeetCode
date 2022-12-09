@@ -1,0 +1,23 @@
+//TreeSet源自于TreeMap
+
+class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int indexDiff, int valueDiff) {
+        TreeSet<Long> ts = new TreeSet<>();
+        for(int i=0;i<nums.length;i++){
+            Long u = nums[i]*1L;
+            Long f = ts.floor(u);
+            if(f!=null&&u-f<=valueDiff){
+                return true;
+            }
+            Long c = ts.ceiling(u);
+            if(c!=null&&c-u<=valueDiff){
+                return true;
+            }
+            ts.add(u);
+            if(i>=indexDiff){
+                ts.remove(nums[i-indexDiff]*1L);
+            }
+        }
+        return false;
+    }
+}

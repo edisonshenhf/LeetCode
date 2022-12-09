@@ -1,0 +1,31 @@
+//动态规划
+
+class Solution {
+    HashMap<String,Boolean> dp;
+    public boolean canWin(String currentState) {
+        dp = new HashMap<>();
+        return dfs(currentState.toCharArray(),currentState.length());
+    }
+
+    boolean dfs(char[] ch,int n){
+        String str = new String(ch);
+        if(dp.containsKey(str)){
+            return dp.get(str);
+        }
+        boolean flag = false;
+
+        for(int i=0;i< n-1;i++){
+            if(ch[i]=='+'&&ch[i+1]=='+'){
+                ch[i]=ch[i+1]='-';
+                boolean win = !dfs(ch,n);
+                ch[i]=ch[i+1]='+';
+                if(win){
+                    flag=true;
+                    break;
+                }
+            }
+        }
+        dp.put(str,flag);
+        return flag;
+    }
+}

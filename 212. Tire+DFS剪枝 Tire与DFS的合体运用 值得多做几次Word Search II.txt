@@ -1,0 +1,58 @@
+class Solution {
+    TrieNode root;
+    Set<Integer> set;
+    char[][] g;
+    int[] dx = {-1,0,1,0} , dy={0,1,0,-1};
+    public List<String> findWords(char[][] board, String[] words) {
+        root = new TrieNode();
+        set = new HashSet<>();
+        g= board;
+        for(int i=0;i<words.length;i++){
+            insert(words[i],i);
+        }
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+                int index = board[i][j]-'a';
+                if(root.children[index]!=null){
+                    dfs(i,j,root.children[index]);
+                }
+            }
+        }
+        List<String> res = new ArrayList<>();
+        for(int id:set){
+            res.add(words[id]);
+        }
+        return res;
+    }
+
+    void insert(String word,Integer id){
+        TrieNode cur = root;
+        for(int i=0;i<word.length();i++){
+            int index = word.charAt(i)-'a';
+            if(cur.children[index]==null) cur.children[index]=new TrieNode();
+            cur=cur.children[index];
+        }
+        cur.id=id;
+    }
+
+    void dfs(int i,int j,TrieNode cur){
+        if(cur.id!=-1) set.add(cur.id);
+        char c = g[i][j];
+        g[i][j]='.';
+        for(int k=0;k<4;k++){
+            int x = i+dx[k], y = j+dy[k];
+            if(x>=0&&x<g.length&&y>=0&&y<g[0].length&&g[x][y]!='.'){
+                int index = g[x][y]-'a';
+                if(cur.children[index]!=null){
+                    dfs(x,y,cur.children[index]);
+                }
+            }
+        }
+        g[i][j]=c;
+    }
+}
+
+class TrieNode{
+    int id = -1;
+    TrieNode[] children = new TrieNode[26];
+}

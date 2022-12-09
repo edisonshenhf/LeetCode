@@ -1,0 +1,16 @@
+class Solution {
+    public String shortestPalindrome(String s) {
+        int n = s.length();
+        StringBuilder sb = new StringBuilder(s).reverse();
+        s = " " + s + "#" + sb.toString();
+        int[] ne = new int[n*2+2];
+        for(int i=2,j=0;i<=2*n+1;i++){
+            while(j!=0&&s.charAt(i)!=s.charAt(j+1)) j=ne[j];
+            if(s.charAt(i)==s.charAt(j+1)) j++;
+            ne[i]=j;
+        }
+        int len = ne[2*n+1];
+        String left = s.substring(n+2,2*n+2-len);
+        return left+ s.substring(1,n+1);
+    }
+}

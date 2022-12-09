@@ -1,0 +1,50 @@
+//这类问题可以统称为扫描线问题
+
+class Solution {
+    public List<List<Integer>> getSkyline(int[][] buildings) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Point> points = new ArrayList<>();
+        for(int[] b:buildings){
+            points.add(new Point(b[0],-b[2]));
+            points.add(new Point(b[1],b[2]));
+        }
+        Collections.sort(points,(a,b)->{
+            if(a.x==b.x){
+                return a.h-b.h;
+            }
+            return a.x-b.x;
+        });
+        TreeMap<Integer,Integer> tree = new TreeMap<>();
+        tree.put(0,0);
+        for(Point point:points){
+            int x = point.x, h = Math.abs(point.h);
+            if(point.h<0){
+                if(h>tree.lastKey()){
+                    List<Integer> cur = new ArrayList<>();
+                    cur.add(x);
+                    cur.add(h);
+                    res.add(cur);
+                }
+                tree.put(h,tree.getOrDefault(h,0)+1);
+            }else{
+                tree.put(h,tree.get(h)-1);
+                if(tree.get(h)==0) tree.remove(h);
+                if(h>tree.lastKey()){
+                    List<Integer> cur = new ArrayList<>();
+                    cur.add(x);
+                    cur.add(tree.lastKey());
+                    res.add(cur);
+                }
+            }
+        }
+        return res;
+    }
+}
+
+class Point {        
+        int x, h  ;        
+    Point(int x, int h){
+        this.x = x ;
+        this.h = h ;
+    }                    
+}

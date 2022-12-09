@@ -1,0 +1,15 @@
+class Solution {
+    Set<Integer> set = new HashSet<>();
+    public boolean isHappy(int n) {
+        if(n==1) return true;
+        int num = 0;
+        while(n!=0){
+            int t = n%10;
+            num+=t*t;
+            n/=10;
+        }
+        if(set.contains(num)) return false;
+        set.add(num);
+        return isHappy(num);
+    }
+}

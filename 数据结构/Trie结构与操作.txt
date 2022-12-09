@@ -1,0 +1,72 @@
+//Trie 本身不是java的一种数据结构 是一种存储思路 为字典树 是树形结构
+//该结构适用范围比较窄 仅限于字符串的算法题
+//本身结构为两点 isWord与TrieNode[]
+
+class TrieNode{
+	boolean isWord;
+	TrieNode[] children;
+	public TrieNode(){
+		isWord=false;
+		children = new TrieNode[26];
+	}
+}
+
+//简写为
+
+class TrieNode{
+	boolean isWord;
+	TrieNode[] children = new TrieNode[26];
+}
+
+//构建Trie树
+
+class TrieNode{
+	boolean isWord;
+	TrieNode[] children = new TrieNode[26];
+}
+
+class Trie{
+	TrieNode root;
+	public Trie(){
+		root= new TrieNode();
+	}
+}
+
+
+//增 insert()
+
+    public void insert(String word) {
+        TrieNode cur =root;
+        for(int i=0;i<word.length();i++){
+            int index = word.charAt(i)-'a';
+            if(cur.children[index]==null) cur.children[index] = new TrieNode();
+            cur=cur.children[index];
+        }
+        cur.isWord=true;
+    }
+
+//查 search()
+
+    public boolean search(String word) {
+        TrieNode cur = root;
+        for(int i=0;i<word.length();i++){
+            int index = word.charAt(i)-'a';
+            if(cur.children[index]==null) return false;
+            cur=cur.children[index];
+        }
+        return cur.isWord;
+    }
+
+
+//按照前缀查找 startsWith()
+//与完整查找类似，区别在于不需要判断最后一个节点的isWord=true;
+
+    public boolean startsWith(String prefix) {
+        TrieNode cur = root;
+        for(int i=0;i<prefix.length();i++){
+            int index = prefix.charAt(i)-'a';
+            if(cur.children[index]==null) return false;
+            cur=cur.children[index];
+        }
+        return true;
+    }
