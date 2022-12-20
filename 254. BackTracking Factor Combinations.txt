@@ -1,0 +1,27 @@
+class Solution {
+    List<List<Integer>> res;
+    public List<List<Integer>> getFactors(int n) {
+        res=new ArrayList<>();
+        if (n == 1) return res;
+        helper(n,2,new ArrayList<>());
+        return res;
+    }
+
+    void helper(int n,int start,List<Integer> list){
+        if(n<2){
+            if(list.size()>1) res.add(new ArrayList<>(list)); 
+            return;
+        } 
+        for(int i = start; i*i <= n; i++){
+            if (n % i == 0) {
+                list.add(i);
+                list.add(n/i);
+                res.add(new ArrayList<>(list));
+                list.remove(list.size() - 1);
+                helper(n / i,i,list);
+                list.remove(list.size() - 1);
+            }
+        }
+        return;
+    }
+}

@@ -1,0 +1,98 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class BSTIterator {
+    List<Integer> list;
+    int i;
+    public BSTIterator(TreeNode root) {
+        list=new ArrayList<>();
+        dfs(root);
+        i=0;
+    }
+
+    void dfs(TreeNode root){
+        if(root==null) return;
+        dfs(root.left);
+        list.add(root.val);
+        dfs(root.right);
+    }
+    
+    public int next() {
+        return list.get(i++);
+    }
+    
+    public boolean hasNext() {
+        if(i<list.size()) return true;
+        else return false;
+    }
+}
+
+/**
+ * Your BSTIterator object will be instantiated and called as such:
+ * BSTIterator obj = new BSTIterator(root);
+ * int param_1 = obj.next();
+ * boolean param_2 = obj.hasNext();
+ */
+
+
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class BSTIterator {
+    Stack<TreeNode> stk = new Stack<>();
+    public BSTIterator(TreeNode root) {
+        stk.clear();
+        while(root!=null){
+            stk.push(root);
+            root=root.left;
+        }
+    }
+    
+    public int next() {
+        TreeNode p = stk.pop();
+        int res = p.val;
+        p=p.right;
+        while(p!=null){
+            stk.push(p);
+            p=p.left;
+        }
+        return res;
+    }
+    
+    public boolean hasNext() {
+        return !stk.isEmpty();
+    }
+}
+
+/**
+ * Your BSTIterator object will be instantiated and called as such:
+ * BSTIterator obj = new BSTIterator(root);
+ * int param_1 = obj.next();
+ * boolean param_2 = obj.hasNext();
+ */

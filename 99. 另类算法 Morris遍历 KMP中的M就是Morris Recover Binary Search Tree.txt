@@ -1,0 +1,46 @@
+//1.中序遍历的意思是 如果当前点有左子树的话先要遍历左子树 遍历完该点后才能走到右子树
+//2.如果有左子树的话 把左子树的最后一个点的右儿子指向这个点 (这个就是Morris遍历)
+//因为会回到root 所以要加一层判断 是从上面下去的遍历还是从左子树的最后一个点回来的下面上来的
+
+
+//普通解法 
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    List<TreeNode> list = new ArrayList<>();
+    public void recoverTree(TreeNode root) {
+        dfs(root);
+        TreeNode a = null;
+        TreeNode b = null;
+        for(int i=0;i<list.size()-1;i++){
+            if(list.get(i).val>list.get(i+1).val){
+                b=list.get(i+1);
+                if(a==null) a=list.get(i);
+            }
+        }
+        int t = a.val;
+        a.val=b.val;
+        b.val=t;
+    }
+    void dfs(TreeNode root){
+        if(root!=null){
+            dfs(root.left);
+            list.add(root);
+            dfs(root.right);
+        }
+    }
+}
+

@@ -1,0 +1,31 @@
+class Solution {
+    int[] dx = {-1,0,1,0};
+    int[] dy = {0,1,0,-1};
+    char[][] grid;
+    int res;
+    public int numIslands(char[][] grid) {
+        res=0;
+        this.grid=grid;
+        int n = grid.length;
+        int m = grid[0].length;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]=='1'){
+                    dfs(i,j);
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+    void dfs(int i,int j){
+        grid[i][j]='.';
+        for(int k=0;k<4;k++){
+            int x = i+dx[k];
+            int y = j+dy[k];
+            if(x>=0&&x<grid.length&&y>=0&&y<grid[0].length&&grid[x][y]=='1'){
+                dfs(x,y);
+            }
+        }
+    }
+}

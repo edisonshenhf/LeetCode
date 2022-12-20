@@ -1,0 +1,28 @@
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        HashMap<String,Integer> map = new HashMap<>();
+        Queue<String> queue = new LinkedList<>();
+        queue.add(beginWord);
+        map.put(beginWord,1);
+        while(!queue.isEmpty()){
+            String t = queue.poll();
+            for(String word:wordList){
+                if(!map.containsKey(word)&&check(word,t)){
+                    map.put(word,map.get(t)+1);
+                    queue.add(word);
+                }
+            }
+        }
+        if(!map.containsKey(endWord)) return 0;
+        return map.get(endWord);
+    }
+
+    boolean check(String a,String b){
+        int cnt=0;
+        for(int i=0;i<a.length();i++){
+            if(a.charAt(i)==b.charAt(i)) cnt++;
+        }
+        if(cnt==a.length()-1) return true;
+        return false;
+    }
+}

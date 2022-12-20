@@ -1,0 +1,40 @@
+class Solution {
+    HashMap<Integer,Integer> map = new HashMap<>();
+    public int strobogrammaticInRange(String low, String high) {
+        map.put(0,0);
+        map.put(1,1);
+        map.put(6,9);
+        map.put(8,8);
+        map.put(9,6);
+
+        int res = 0;
+        int st = Integer.parseInt(low);
+        int ed = Integer.parseInt(high);
+        for(int i =st;i<=ed;i++){
+            boolean q = true;
+            int num = i;
+            while(num!=0){
+                int j = num%10;
+                if(!map.containsKey(j)){
+                    q=false;
+                    break;
+                }
+                num/=10;
+            }
+            if(q==true&&check(i)) res++;
+        }
+        return res;
+    }
+    
+    boolean check(int num){
+        int i =0;
+        int j =num;
+        while(j!=0){
+            int temp = j%10;
+            i*=10;
+            i+=map.get(temp);
+            j/=10;
+        }
+        return i==num;
+    }
+}

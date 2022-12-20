@@ -1,0 +1,32 @@
+class Vector2D {
+    List<Integer> list;
+    int i;
+    int n;
+    public Vector2D(int[][] vec) {
+        list=new ArrayList<>();
+        for(int[] nums:vec){
+            for(int num:nums){
+                list.add(num);
+            }
+        }
+        n = list.size();
+        i=0;
+    }
+    
+    public int next() {
+        int res= list.get(i);
+        i++;
+        return res;
+    }
+    
+    public boolean hasNext() {
+        return i<n;
+    }
+}
+
+/**
+ * Your Vector2D object will be instantiated and called as such:
+ * Vector2D obj = new Vector2D(vec);
+ * int param_1 = obj.next();
+ * boolean param_2 = obj.hasNext();
+ */

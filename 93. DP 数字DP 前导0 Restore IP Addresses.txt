@@ -1,0 +1,25 @@
+class Solution {
+    List<String> res;
+    public List<String> restoreIpAddresses(String s) {
+        res= new ArrayList<>();
+        dfs(s,0,0,"");
+        return res;
+    }
+
+    void dfs(String s,int u,int k,String path){
+        if(u==s.length()){
+            if(k==4){
+                path=path.substring(0,path.length()-1);
+                res.add(path);
+                return;
+            }
+        }
+        if(k==4) return;
+        for(int i=u,t=0;i<s.length();i++){
+            if(i>u&&s.charAt(u)=='0') break;
+            t=t*10+s.charAt(i)-'0';
+            if(t<=255) dfs(s,i+1,k+1,path+Integer.toString(t)+".");
+            else break;
+        }
+    }
+}

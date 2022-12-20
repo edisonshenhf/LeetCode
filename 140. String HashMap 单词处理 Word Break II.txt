@@ -1,0 +1,36 @@
+class Solution {
+    Set<String> set = new HashSet<>();
+    List<String> res = new ArrayList<>();
+    boolean[] f;
+    int n;
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        for(String str:wordDict) set.add(str);
+        n=s.length();
+        s=" "+s;
+        f= new boolean[n+1];
+        f[0]=true;
+        for(int i=0;i<=n;i++){
+            for(int j=0;j<=i;j++){
+                String t = s.substring(j,i+1);
+                if(set.contains(t)) f[i]|=f[j-1];
+            }
+        }
+        if(!f[n]) return res;
+        dfs(s,1,"");
+        return res;
+    }
+
+    void dfs(String s,int u,String word){
+        if(u==n+1){
+            res.add(word);
+            return;
+        }
+        for(int i=u;i<=n;i++){
+            String t = s.substring(u,i+1);
+            if(f[i]&&set.contains(t)){
+                String next= word.length()==0?t:word+" "+t;
+                dfs(s,i+1,next);
+            }
+        }
+    }
+}

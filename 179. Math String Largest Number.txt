@@ -1,0 +1,31 @@
+//处理就是排序
+//把所有num转成string
+//对于所有num a 和num b
+//如果有ab>ba则把a放在b前面
+//最后处理前导0
+//也就是全是0的情况
+//a.compareTo(b) 就可以比较ab与ba的大小
+//int compareTo(String anotherString) Compares two strings lexicographically.
+
+
+class Solution {
+    public String largestNumber(int[] nums) {
+        int n = nums.length;
+        String[] s = new String[n];
+        for(int i=0;i<n;i++) s[i]=""+nums[i];
+        Arrays.sort(s,(a,b)->{
+            String x = ""+a+b;
+            String y = ""+b+a;
+            return y.compareTo(x);
+        });
+
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<s.length;i++){
+            sb.append(s[i]);
+        }
+        String res=sb.toString();
+        int k =0;
+        while(k<n-1&&res.charAt(k)=='0') k++;
+        return res.substring(k);
+    }
+}

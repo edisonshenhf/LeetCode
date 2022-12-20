@@ -1,0 +1,74 @@
+//dfs深搜 答案size与depth相同的时候就是答案
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    List<Integer> res = new ArrayList<>();
+    public List<Integer> rightSideView(TreeNode root) {
+        res.clear();
+        if(root==null) return res;
+        dfs(root,0);
+        return res;
+    }
+
+    void dfs(TreeNode root, int depth){
+        if(root==null) return;
+        if(depth==res.size()) res.add(root.val);
+        dfs(root.right,depth+1);
+        dfs(root.left,depth+1);
+    }
+}
+
+//bfs 宽搜 用queue
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    List<Integer> res = new ArrayList<>();
+    public List<Integer> rightSideView(TreeNode root) {
+        res.clear();
+        if(root==null) return res;
+        bfs(root);
+        return res;
+    }
+
+    void bfs(TreeNode root){
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()){
+            int n = queue.size();
+            for(int i=0;i<n;i++){
+                TreeNode t = queue.poll();
+                if(i==n-1) res.add(t.val);
+                if(t.left!=null) queue.add(t.left);
+                if(t.right!=null) queue.add(t.right);
+            }
+        }
+    }
+}

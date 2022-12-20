@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        if(root==null) return root;
+        TreeNode left = root;
+        root = null;
+        TreeNode right = null;
+
+        while(left!=null) {
+            TreeNode tempLeft = left.left;
+            TreeNode tempRight = left.right;
+            root = rotate(root, left, right);
+            left = tempLeft;
+            right = tempRight;
+        }
+        return root;
+    }
+
+    private TreeNode rotate(TreeNode root, TreeNode left, TreeNode right) {
+        left.right = root;
+        left.left = right;
+        return left;
+    }
+}

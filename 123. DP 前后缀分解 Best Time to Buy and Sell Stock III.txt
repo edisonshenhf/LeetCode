@@ -1,0 +1,20 @@
+//前后缀分解
+//预处理前f[i]的最大值
+//然后从后往前遍历 再处理一次最大值
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[] f = new int[n+1];
+        for(int i=1,min=Integer.MAX_VALUE;i<=n;i++){
+            f[i]=Math.max(f[i-1],prices[i-1]-min);
+            min=Math.min(prices[i-1],min);
+        }
+        int res = 0;
+        for(int i=n,max=0;i>=1;i--){
+            res=Math.max(res,max-prices[i-1]+f[i]);
+            max=Math.max(max,prices[i-1]);
+        }
+        return res;
+    }
+}

@@ -1,0 +1,36 @@
+class Solution {
+    HashMap<Integer,List<Integer>> map = new HashMap<>();
+    Set<Integer> set = new HashSet<>();
+    boolean flag;
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        if(source==destination||n<=1) return true;
+        for(int[] edge:edges){
+            init(edge[0],edge[1]);
+            init(edge[1],edge[0]);
+        }
+        dfs(source,destination,map,set);
+        return flag;
+    }
+
+    void dfs(int st,int ed,HashMap<Integer,List<Integer>> map,Set<Integer> set){
+        if(!map.containsKey(st)) return;
+        set.add(st);
+        List<Integer> list = map.get(st);
+        for(int num:list){
+            if(num==ed) flag=true;
+            if(!set.contains(num)&&map.containsKey(num)) dfs(num,ed,map,set);
+        }
+    }
+
+    void init(int key,int val){
+        if(!map.containsKey(key)){
+                List<Integer> list = new ArrayList<>();
+                list.add(val);
+                map.put(key,list);
+            }else{
+                List<Integer> list = map.get(key);
+                list.add(val);
+                map.put(key,list);
+        }
+    }
+}

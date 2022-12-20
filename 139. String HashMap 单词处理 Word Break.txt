@@ -1,0 +1,21 @@
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> set = new HashSet<>();
+        for(String str:wordDict){
+            set.add(str);
+        }
+        int n = s.length();
+        boolean[] f = new boolean[n+1];
+        s=" "+s;
+        f[0]=true;
+        for(int i=0;i<n;i++){
+            if(f[i]){
+                for(int j=i+1;j<=n;j++){
+                    String t = s.substring(i+1,j+1);
+                    if(set.contains(t)) f[j]=true;
+                }
+            }
+        }
+        return f[n];
+    }
+}

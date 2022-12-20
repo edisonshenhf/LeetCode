@@ -1,0 +1,56 @@
+//把所有单词看成点，如果这个单词能变成其他单词，则在这两个单词连一条边
+
+class Solution {
+    List<List<String>> res = new ArrayList<>();
+    List<String> path = new ArrayList<>();
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+        boolean flag = false;
+        for(String word:wordList){
+            if(word.equals(beginWord)){
+                flag=true;
+                break;
+            }
+        }
+        if(!flag) wordList.add(beginWord);
+        HashMap<String,Integer> map = new HashMap<>();
+        Queue<String> queue = new LinkedList<>();
+        map.put(endWord,0);
+        queue.add(endWord);
+        while(!queue.isEmpty()){
+            String t = queue.poll();
+            for(String word:wordList){
+                if(!map.containsKey(word)&&check(t,word)){
+                    map.put(word,map.get(t)+1);
+                    queue.add(word);
+                }
+            }
+        }
+        if(!map.containsKey(beginWord)) return res;
+        path.add(beginWord);
+        dfs(beginWord,wordList,map);
+        return res;
+    }
+
+    boolean check(String a,String b){
+        int cnt =0;
+        for(int i=0;i<a.length();i++){
+            if(a.charAt(i)==b.charAt(i)) cnt++;
+        }
+        if(cnt==a.length()-1) return true;
+        return false;
+    }
+
+    void dfs(String s,List<String> wordList,HashMap<String,Integer> map){
+        if(map.get(s)==0){
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        for(String word:wordList){
+            if(map.containsKey(word)&&check(word,s)&&map.get(s)==map.get(word)+1){
+                path.add(word);
+                dfs(word,wordList,map);
+                path.remove(path.size()-1);
+            }
+        }
+    }
+}

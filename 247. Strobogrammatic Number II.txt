@@ -1,0 +1,31 @@
+class Solution {
+    Map<Character,Character> map = new HashMap<>();
+    public List<String> findStrobogrammatic(int n) {
+        map.put('0','0');
+        map.put('1','1');
+        map.put('6','9');
+        map.put('8','8');
+        map.put('9','6');
+        char[] list = new char[n];
+        List<String> res = new ArrayList<>();
+        findComb(0,n-1,list,res);
+        if(n==1){
+            res.add("0");
+        }
+        return res;
+    }
+
+    void findComb(int start,int end,char[] list,List<String> res){
+        if(start>end){
+            res.add(new String(list));
+            return;
+        }
+        for(Character left:map.keySet()){
+            Character right = map.get(left);
+            if(start==end&&left!=right||start==0&&left=='0') continue;
+            list[start]=left;
+            list[end]=right;
+            findComb(start+1,end-1,list,res);
+        }
+    }
+}

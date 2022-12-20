@@ -1,0 +1,16 @@
+class Solution {
+    public int nthUglyNumber(int n) {
+        int[] s = new int[n];
+        s[0]=1;
+        if(n==1) return 1;
+        int i=0,j=0,k=0;
+        for(int idx=1;idx<n;idx++){
+            int t2=s[i]*2 , t3=s[j]*3, t5= s[k]*5;
+            s[idx]=Math.min(t2,Math.min(t3,t5));
+            if(t2==s[idx]) i++;
+            if(t3==s[idx]) j++;
+            if(t5==s[idx]) k++;
+        }
+        return s[n-1];
+    }
+}

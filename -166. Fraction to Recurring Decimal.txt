@@ -1,0 +1,30 @@
+class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        long x = numerator, y = denominator;
+        if(x%y==0) return ""+x/y;
+        String res ="";
+        if((x<0)^(y<0)) res+="-";
+        x=Math.abs(x);
+        y=Math.abs(y);
+        res+=x/y+".";
+        x%=y;
+
+        HashMap<Long,Integer> map = new HashMap<>();
+        while(x != 0)
+        {
+
+            if(map.containsKey(x))
+            {
+                int idx = map.get(x);
+                res = res.substring(0, idx) + "(" + res.substring(idx) + ")";
+                break;
+            }
+
+            map.put(x, res.length());//记录余数的位置
+            x *= 10;
+            res += x / y;
+            x %= y;
+        }    
+        return res;
+    }
+}
