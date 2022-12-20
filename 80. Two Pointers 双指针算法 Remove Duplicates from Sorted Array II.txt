@@ -1,0 +1,17 @@
+//分两种情况
+//第一种情况慢指针k小于2就是前两个数
+//第二种情况就是慢指针k里没有满足两个数 因为是单调递增数组
+//所以只要最后一个或者最后第二个数不等于当前扫描的数
+//当前扫描的数就可以加入慢指针数组
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int k = 0;
+        for(int num:nums){
+            if(k<2||nums[k-1]!=num||nums[k-2]!=num){
+                nums[k++]=num;
+            }
+        }
+        return k;
+    }
+}
