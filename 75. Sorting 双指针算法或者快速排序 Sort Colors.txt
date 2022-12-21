@@ -1,0 +1,47 @@
+//荷兰国旗问题 三色问题
+
+//快速排序
+class Solution {
+    public void sortColors(int[] nums) {
+        int n = nums.length;
+        sort(0,n-1,nums);
+    }
+
+    void sort(int l,int r,int[] nums){
+        if(l>=r) return;
+        int x = nums[l+r>>1];
+        int i=l-1;
+        int j=r+1;
+        while(i<j){
+            while(nums[++i]<x);
+            while(nums[--j]>x);
+            if(i<j){
+                int temp = nums[i];
+                nums[i]=nums[j];
+                nums[j]=temp;
+            }
+        }
+        sort(l,j,nums);
+        sort(j+1,r,nums);
+    }
+}
+
+class Solution {
+    public void sortColors(int[] nums) {
+        for(int i=0,j=0,k=nums.length-1;i<=k;){
+            if(nums[i]==0){
+                int temp = nums[i];
+                nums[i]=nums[j];
+                nums[j]=temp;
+                i++;j++;
+            }else if(nums[i]==2){
+                int temp = nums[i];
+                nums[i]=nums[k];
+                nums[k]=temp;
+                k--;
+            }else{
+                i++;
+            }
+        }
+    }
+}
