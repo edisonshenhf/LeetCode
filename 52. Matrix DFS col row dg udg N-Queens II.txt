@@ -1,0 +1,31 @@
+class Solution {
+    int res;
+    char[][] g;
+    boolean[] col;
+    boolean[] dg;
+    boolean[] udg;
+    int n;
+    public int totalNQueens(int n) {
+        res=0;
+        this.n=n;
+        col=new boolean[n];
+        dg=new boolean[2*n];
+        udg=new boolean[2*n];
+        dfs(0);
+        return res;
+    }
+    
+     void dfs(int u){
+         if(u==n){
+             res++;
+             return;
+         }
+         for(int i=0;i<n;i++){
+             if(!col[i]&&!dg[u+i]&&!udg[n-u+i]){
+                 col[i]=dg[u+i]=udg[n-u+i]=true;
+                 dfs(u+1);
+                 col[i]=dg[u+i]=udg[n-u+i]=false;
+             }
+         }
+     }
+}

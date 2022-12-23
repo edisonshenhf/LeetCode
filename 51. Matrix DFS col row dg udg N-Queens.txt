@@ -1,0 +1,48 @@
+class Solution {
+    List<List<String>> res;
+    char[][] g;
+    boolean[] col;
+    boolean[] dg;
+    boolean[] udg;
+    int n;
+    public List<List<String>> solveNQueens(int n) {
+        res=new ArrayList<>();
+        this.n=n;
+        col = new boolean[n];
+        g= new char[n][n];
+        dg = new boolean[2*n];
+        udg = new boolean[2*n];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                g[i][j]='.';
+            }
+        }
+        dfs(0);
+        return res;
+    }
+
+    void dfs(int u){
+        if(u==n){
+            List<String> list = new ArrayList<>();
+            for(int i=0;i<n;i++){
+                StringBuilder sb = new StringBuilder();
+                for(int j=0;j<n;j++){
+                    sb.append(g[i][j]);
+                }
+                list.add(sb.toString());
+            }
+            res.add(list);
+            return;
+        }
+
+        for(int i=0;i<n;i++){
+            if(!col[i]&&!dg[u+i]&&!udg[n-u+i]){
+                col[i]=dg[u+i]=udg[n-u+i]=true;
+                g[u][i]='Q';
+                dfs(u+1);
+                col[i]=dg[u+i]=udg[n-u+i]=false;
+                g[u][i]='.';
+            }
+        }
+    }
+}

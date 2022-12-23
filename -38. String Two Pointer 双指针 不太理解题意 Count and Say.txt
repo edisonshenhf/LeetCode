@@ -1,0 +1,18 @@
+//没有看懂题意是什么
+
+class Solution {
+    public String countAndSay(int n) {
+        StringBuilder res = new StringBuilder("1");
+        for(int i=1;i<n;i++){
+            StringBuilder sb = new StringBuilder();
+            for(int j=0;j<res.length();j++){
+                int k = j;
+                while(k < res.length() && res.charAt(k) == res.charAt(j)) k ++;
+                sb.append(k - j).append(res.charAt(j));
+                j=k-1;
+            }
+            res=sb;
+        }
+        return res.toString();
+    }
+}

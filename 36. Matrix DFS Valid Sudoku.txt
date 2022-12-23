@@ -1,0 +1,16 @@
+class Solution {
+    boolean[][][] cell = new boolean[3][3][9];
+    boolean[][] row = new boolean[9][9];
+    boolean[][] col = new boolean[9][9];
+    public boolean isValidSudoku(char[][] board) {
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(board[i][j]!='.'){
+                    if(col[i][board[i][j]-'1']||row[j][board[i][j]-'1']||cell[i/3][j/3][board[i][j]-'1']) return false;
+                    else col[i][board[i][j]-'1']=row[j][board[i][j]-'1']=cell[i/3][j/3][board[i][j]-'1']=true;
+                }
+            }
+        }
+        return true;
+    }
+}

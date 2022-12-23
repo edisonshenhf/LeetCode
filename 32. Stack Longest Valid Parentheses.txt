@@ -1,0 +1,24 @@
+class Solution {
+    public int longestValidParentheses(String s) {
+        if(s.length()<1) return 0;
+        Stack<Integer> stack = new Stack<>();
+        int n =s.length();
+        int res= 0;
+        for(int i=0,start=-1;i<n;i++){
+            if(s.charAt(i)=='(') stack.push(i);
+            else{
+                if(!stack.isEmpty()){
+                    stack.pop();
+                    if(!stack.isEmpty()){
+                        res=Math.max(res,i-stack.peek());
+                    }else{
+                        res=Math.max(res,i-start);
+                    }
+                }else{
+                    start=i;
+                }
+            }
+        }
+        return res;
+    }
+}

@@ -1,0 +1,38 @@
+class Solution {
+    boolean[][][] cell = new boolean[3][3][9];
+    boolean[][] row = new boolean[9][9];
+    boolean[][] col = new boolean[9][9];
+    char[][] board;
+    public void solveSudoku(char[][] board) {
+        this.board=board;
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(board[i][j]!='.'){
+                    cell[i/3][j/3][board[i][j]-'1']=true;
+                    row[j][board[i][j]-'1']=true;
+                    col[i][board[i][j]-'1']=true;
+                }
+            }
+        }
+        dfs(0,0);
+    }
+
+    boolean dfs(int x,int y){
+        if(y==9){
+            x++;
+            y=0;
+        }
+        if(x==9) return true;
+        if(board[x][y]!='.') return dfs(x,y+1);
+        for(int i=0;i<9;i++){
+            if(!row[y][i]&&!col[x][i]&&!cell[x/3][y/3][i]){
+                board[x][y]=(char)(i+'1');
+                row[y][i]=col[x][i]=cell[x/3][y/3][i]=true;
+                if(dfs(x,y+1)) return true;
+                board[x][y]='.';
+                row[y][i]=col[x][i]=cell[x/3][y/3][i]=false;
+            }
+        }
+        return false;
+    }
+}

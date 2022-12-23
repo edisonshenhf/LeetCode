@@ -1,0 +1,16 @@
+class Solution {
+    List<String> res = new ArrayList<>();
+    public List<String> generateParenthesis(int n) {
+        dfs(n,0,0,"");
+        return res;
+    }
+
+    void dfs(int n,int l,int r,String s){
+        if(l==r&&l==n){
+            res.add(s);
+            return;
+        }
+        if(l<n) dfs(n,l+1,r,s+"(");
+        if(r<l) dfs(n,l,r+1,s+")");
+    }
+}

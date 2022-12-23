@@ -1,0 +1,31 @@
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    List<Integer> path=new ArrayList<>();
+    int[] nums;
+    int n;
+    boolean[] st;
+    public List<List<Integer>> permute(int[] nums) {
+        this.nums=nums;
+        n=nums.length;
+        st=new boolean[n];
+        dfs(0);
+        return res;
+    }
+
+    void dfs(int u){
+        if(u==n){
+            res.add(new ArrayList<>(path));
+            return;
+        }
+
+        for(int i=0;i<n;i++){
+            if(!st[i]){
+                path.add(nums[i]);
+                st[i]=true;
+                dfs(u+1);
+                st[i]=false;
+                path.remove(path.size()-1);
+            }
+        }
+    }
+}
