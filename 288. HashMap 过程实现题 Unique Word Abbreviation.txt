@@ -1,0 +1,46 @@
+class ValidWordAbbr {
+    Set<String> origin;
+    HashMap<String,String> abb;
+    public ValidWordAbbr(String[] dictionary) {
+        origin=new HashSet<>();
+        abb = new HashMap<>();
+        for(String word:dictionary){
+            origin.add(word);
+            String abbWord="";
+
+            if(word.length()==2){
+                abbWord=word;
+            }else{
+                StringBuilder sb = new StringBuilder();
+                sb.append(word.charAt(0)).append(word.length()-2).append(word.charAt(word.length()-1));
+                abbWord=sb.toString();
+            }
+            if(!abb.containsKey(abbWord)){
+                abb.put(abbWord,word);
+            }else{
+                if(!abb.get(abbWord).equals(word)){
+                    abb.put(abbWord,"Wrong");
+                }
+            }
+        }
+    }
+    
+    public boolean isUnique(String word) {
+        String abbWord ="";
+        if(word.length()==2) abbWord=word;
+        else{
+            StringBuilder sb = new StringBuilder();
+            sb.append(word.charAt(0)).append(word.length()-2).append(word.charAt(word.length()-1));
+            abbWord=sb.toString();
+        }
+        if(!abb.containsKey(abbWord)) return true;
+        if(abb.containsKey(abbWord)&&origin.contains(word)&&!abb.get(abbWord).equals("Wrong")) return true;
+        return false;
+    }
+}
+
+/**
+ * Your ValidWordAbbr object will be instantiated and called as such:
+ * ValidWordAbbr obj = new ValidWordAbbr(dictionary);
+ * boolean param_1 = obj.isUnique(word);
+ */

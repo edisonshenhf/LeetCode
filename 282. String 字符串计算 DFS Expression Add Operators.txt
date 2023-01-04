@@ -1,0 +1,30 @@
+class Solution {
+    List<String> res;
+    public List<String> addOperators(String num, int target) {
+        res = new ArrayList<>();
+        dfs(0l,1l,num,target,"");
+        return res;
+    }
+
+    void dfs(long cur,long pre,String num,long target,String exp){
+        if(num.equals("")){
+            if(cur==target){
+                res.add(exp);
+            }
+            return;
+        }
+
+        for(int i=1;i<=num.length();i++){
+            String curNum = num.substring(0,i);
+            if(curNum.length()>1&&curNum.charAt(0)=='0') break;
+            long digit = Long.parseLong(curNum);
+            if(exp.equals("")){
+                dfs(digit,digit,num.substring(i),target,curNum);
+            }else{
+                dfs(cur+digit,digit,num.substring(i),target,exp+"+"+curNum);
+                dfs(cur-digit,-digit,num.substring(i),target,exp+"-"+curNum);
+                dfs(cur-pre+pre*digit,pre*digit,num.substring(i),target,exp+"*"+curNum);
+            }
+        }
+    }
+}

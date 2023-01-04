@@ -1,0 +1,41 @@
+public class ZigzagIterator {
+    Integer cntV1;
+    Integer cntV2;
+    Integer totalV1;
+    Integer totalV2;
+    List<Integer> list1;
+    List<Integer> list2;
+    public ZigzagIterator(List<Integer> v1, List<Integer> v2) {
+        list1=v1;
+        list2=v2;
+        cntV1=0;
+        cntV2=0;
+        totalV1=v1.size();
+        totalV2=v2.size();
+    }
+
+    public int next() {
+        if(cntV1<totalV1&&cntV2<totalV2&&cntV1<=cntV2){
+            return list1.get(cntV1++);
+        }else if(cntV1<totalV1&&cntV2<totalV2){
+            return list2.get(cntV2++);
+        }
+        if(cntV1<totalV1){
+            return list1.get(cntV1++);
+        }
+        if(cntV2<totalV2){
+            return list2.get(cntV2++);
+        }
+        return 0;
+    }
+
+    public boolean hasNext() {
+        return cntV1<totalV1||cntV2<totalV2;
+    }
+}
+
+/**
+ * Your ZigzagIterator object will be instantiated and called as such:
+ * ZigzagIterator i = new ZigzagIterator(v1, v2);
+ * while (i.hasNext()) v[f()] = i.next();
+ */

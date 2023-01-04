@@ -1,0 +1,33 @@
+class Solution {
+    HashMap<Character,String> map;
+    List<String> res;
+    String digits;
+    int n;
+    public List<String> letterCombinations(String digits) {
+        res = new ArrayList<>();
+        if(digits.length()==0) return res;
+        this.digits=digits;
+        n=digits.length();
+        char[] nums = {'2','3','4','5','6','7','8','9'};
+        String[] chars = {"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        map = new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            map.put(nums[i],chars[i]);
+        }
+        dfs(0,"");
+        return res;
+    }
+    
+    void dfs(int u,String s){
+        if(u==n){
+            res.add(s);
+            return;
+        }
+        String list = map.get(digits.charAt(u));
+        for(int i=0;i<list.length();i++){
+            s=s+list.charAt(i);
+            dfs(u+1,s);
+            s=s.substring(0,s.length()-1);
+        }
+    }
+}

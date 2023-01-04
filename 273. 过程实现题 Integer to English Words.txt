@@ -1,0 +1,41 @@
+class Solution {
+    String[] num0_19={
+            "Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven",
+            "Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"
+        };
+    String[] num20_100={
+            "Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"
+        };
+    String[] num1k_1b={
+            "Billion","Million","Thousand",""
+        };
+    public String numberToWords(int num) {
+        if(num==0) return "Zero";
+        StringBuilder sb = new StringBuilder();
+        for(int i=(int)1e9,j=0;i>=1;i/=1000,j++){
+            if(num>=i){
+                sb.append(get(num/i)+num1k_1b[j]+" ");
+                num%=i;
+            }
+        }
+
+        return sb.toString().trim();
+    }
+    String get(int x){
+        StringBuilder sb = new StringBuilder();
+        if(x>=100){
+            sb.append(num0_19[x/100]+" Hundred ");
+            x%=100;
+        }
+        if(x>=20){
+            sb.append(num20_100[x/10-2]+" ");
+            x%=10;
+            if(x>0) sb.append(num0_19[x]+" ");
+        }else{
+            if(x>0) sb.append(num0_19[x]+" ");
+        }
+        return sb.toString();
+    }
+
+
+}

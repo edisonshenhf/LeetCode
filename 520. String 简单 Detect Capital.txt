@@ -1,0 +1,13 @@
+class Solution {
+    public boolean detectCapitalUse(String word) {
+        int cnt = 0;
+        for(char c:word.toCharArray()){
+            if(check(c)) cnt++;
+        }
+        return cnt==word.length()||cnt==0||cnt==1&&check(word.charAt(0));
+    }
+    boolean check(char c){
+        if(c>='A'&&c<='Z') return true;
+        return false;
+    }
+}

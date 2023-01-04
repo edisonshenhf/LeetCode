@@ -1,0 +1,24 @@
+class Solution {
+    char[][] board;
+    int n;
+    int m;
+    int[] dx = {-1,0,1,0};
+    int[] dy = {0,1,0,-1};
+    public int countBattleships(char[][] board) {
+        this.board=board;
+        n = board.length;
+        m = board[0].length;
+        int res = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]=='X'){
+                    if(i==0&&j==0) res++;
+                    else if(i==0&&j!=0&&board[i][j-1]=='.')res++;
+                    else if(i!=0&&j==0&&board[i-1][j]=='.')res++;
+                    else if(i!=0&&j!=0&&board[i-1][j]=='.'&&board[i][j-1]=='.') res++;
+                }
+            }
+        }
+        return res;
+    }
+}

@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    TreeNode res = null;
+    int dif = Integer.MAX_VALUE;
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        if(root!=null){
+            if(root.val>p.val){
+                if(root.val-p.val<dif){
+                    res=root;
+                    dif=root.val-p.val;
+                }
+                inorderSuccessor(root.left,p);
+            }else{
+                inorderSuccessor(root.right,p);
+            }
+        }
+        return res;
+    }
+}

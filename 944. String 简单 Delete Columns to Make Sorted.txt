@@ -1,0 +1,17 @@
+class Solution {
+    public int minDeletionSize(String[] strs) {
+        int n = strs.length;
+        if(n==1) return strs[0].length();
+        boolean[] st = new boolean[strs[0].length()];
+        for(int i=1;i<n;i++){
+            for(int j=0;j<strs[0].length();j++){
+                if(strs[i].charAt(j)-strs[i-1].charAt(j)<0) st[j]=true;
+            }
+        }
+        int res = 0;
+        for(boolean flag:st){
+            if(flag) res++;
+        }
+        return res;
+    }
+}

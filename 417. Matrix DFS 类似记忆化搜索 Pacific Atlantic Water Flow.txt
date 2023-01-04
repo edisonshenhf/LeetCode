@@ -1,0 +1,37 @@
+class Solution {
+    int[][] heights;
+    int[][] f;
+    int n;
+    int m;
+    int[] dx= {-1,0,1,0};
+    int[] dy= {0,1,0,-1};
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        this.heights=heights;
+        n = heights.length;
+        m = heights[0].length;
+        f = new int[n][m];
+        List<List<Integer>> res = new ArrayList<>();
+        for(int i=0;i<n;i++) dfs(i,0,1);
+        for(int i=0;i<m;i++) dfs(0,i,1);
+        for(int i=0;i<n;i++) dfs(i,m-1,2);
+        for(int i=0;i<m;i++) dfs(n-1,i,2);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(f[i][j]==3) res.add(Arrays.asList(i,j));
+            }
+        }
+        return res;
+    }
+
+    void dfs(int i,int j,int t){
+        if((f[i][j]&t)!=0) return;
+        f[i][j]|=t;
+        for(int k=0;k<4;k++){
+            int x = i+dx[k];
+            int y = j+dy[k];
+            if(x>=0&&x<n&&y>=0&&y<m&&heights[x][y]>=heights[i][j]){
+                dfs(x,y,t);
+            }
+        }
+    }
+}

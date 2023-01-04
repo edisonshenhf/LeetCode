@@ -1,0 +1,38 @@
+class Solution {
+    int[] dx = {-1,0,1,0};
+    int[] dy = {0,1,0,-1};
+    int[][] matrix;
+    int[][] f;
+    int n;
+    int m;
+    public int longestIncreasingPath(int[][] matrix) {
+        this.matrix=matrix;
+        n = matrix.length;
+        m = matrix[0].length;
+        f=new int[n][m];
+        for(int[] list:f){
+            Arrays.fill(list,-1);
+        }
+        int res=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                res=Math.max(res,dfs(i,j));
+            }
+        }
+        return res;
+    }
+    int dfs(int i,int j){
+        if(f[i][j]!=-1) return f[i][j];
+        else{
+            f[i][j]=1;
+            for(int k=0;k<4;k++){
+                int x = i+dx[k];
+                int y = j+dy[k];
+                if(x>=0&&x<n&&y>=0&&y<m&&matrix[x][y]>matrix[i][j]){
+                    f[i][j]=Math.max(f[i][j],dfs(x,y)+1);
+                }
+            }
+            return f[i][j];
+        }
+    }
+}

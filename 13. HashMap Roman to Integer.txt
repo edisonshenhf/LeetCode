@@ -1,0 +1,22 @@
+class Solution {
+    public int romanToInt(String s) {
+        HashMap<Character,Integer> map = new HashMap<>();
+        char[] chars = {'I','V','X','L','C','D','M'};
+        int[] nums = {1,5,10,50,100,500,1000};
+        for(int i=0;i<chars.length;i++){
+            map.put(chars[i],nums[i]);
+        }
+        int res = 0;
+        for(int i=0;i<s.length();){
+            if(i+1<s.length()&&map.get(s.charAt(i+1))>map.get(s.charAt(i))){
+                res+=map.get(s.charAt(i+1));
+                res-=map.get(s.charAt(i));
+                i+=2;
+            }else{
+                res+=map.get(s.charAt(i));
+                i++;
+            }
+        }
+        return res;
+    }
+}
