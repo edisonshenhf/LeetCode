@@ -1,0 +1,50 @@
+class StreamChecker {
+    TrieNode root;
+    StringBuilder sb = new StringBuilder();
+    public StreamChecker(String[] words) {
+        root=new TrieNode();
+        for(String word:words) insert(word);
+    }
+    
+    public boolean query(char letter) {
+        sb.append(letter);
+        return search(sb.toString());        
+    }
+
+    void insert(String s){
+        TrieNode cur = root;
+        for(int i=s.length()-1;i>=0;i--){
+            int index = s.charAt(i)-'a';
+            if(cur.children[index]==null) cur.children[index]=new TrieNode();
+            cur=cur.children[index];
+        }
+        cur.isWord=true;
+    }
+
+    boolean search(String s){
+        TrieNode cur = root;
+        for(int i=s.length()-1;i>=0;i--){
+            int index=s.charAt(i)-'a';
+            if(cur.children[index]==null) return false;
+            cur=cur.children[index];
+            if(cur.isWord) return true;
+        }
+        return false;
+    }
+}
+
+class TrieNode{
+    boolean isWord;
+    TrieNode[] children;
+
+    public TrieNode(){
+        isWord=false;
+        children=new TrieNode[26];
+    }
+}
+
+/**
+ * Your StreamChecker object will be instantiated and called as such:
+ * StreamChecker obj = new StreamChecker(words);
+ * boolean param_1 = obj.query(letter);
+ */

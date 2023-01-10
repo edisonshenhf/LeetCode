@@ -1,0 +1,24 @@
+class Solution {
+    public int getMaxLen(int[] nums) {
+        int max =0;
+        int min = 0;
+        int res = 0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]>0){
+                max++;
+                if(min>0) min++;
+            }else if(nums[i]<0){
+                int temp = max;
+                max=min;
+                min=temp;
+                if(max>0) max++;
+                min++;
+            }else{
+                max=0;
+                min=0;
+            }
+            res=Math.max(max,res);
+        }
+        return res;
+    }
+}

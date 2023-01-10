@@ -1,0 +1,24 @@
+class Solution {
+    public int maxIceCream(int[] costs, int coins) {
+        int[] cnt = new int[100010];
+        for(int cost:costs) cnt[cost]++;
+        int res = 0;
+        for(int i=1;i<=100000;i++){
+            if(cnt[i]>0){
+                if(i>coins) break;
+                if(coins-cnt[i]*i>0){
+                    res+=cnt[i];
+                    coins-=cnt[i]*i;
+                }else{
+                    while(coins-i>=0&&cnt[i]>0){
+                        res++;
+                        coins-=i;
+                        cnt[i]--;
+                    }
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+}

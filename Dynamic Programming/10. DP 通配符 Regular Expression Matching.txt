@@ -1,3 +1,10 @@
+//p[j]!='*' f[i][j]=(s[i]==p[j]||p[j]=='.')&&f[i-1][j-1];
+
+//p[j]=='*' f[i][j]=f[i][j-2]||f[i-1][j-2]&&s.charAt(i)==p.charAt(j-1)||f[i-2][j-2]&&s.charAt(i-1)==s.charAt(i)==p.charAt(j-1)........
+//		    (x*取0 也就是去掉这两个字符)	
+//	    f[i-1][j]=f[i-1][j-2]||f[i-2][j-2]&&s.charAt(i-1)==p.charAt(j-1)||f[i-3][j-2]&&s.charAt(i-3)==s.charAt(i-2)==p.charAt(j-1).......
+//	    错项相似 可以进行状态转移
+//
 class Solution {
     public boolean isMatch(String s, String p) {
         int n = s.length();
