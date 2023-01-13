@@ -1,0 +1,24 @@
+class Solution {
+    Map<Integer, List<Integer>> map = new HashMap<>();
+    public int minTime(int n, int[][] edges, List<Boolean> hasApple) {
+        for (int[] edge : edges) {
+            int a = edge[0], b = edge[1];
+            if(!map.containsKey(a)) map.put(a,new ArrayList<>());
+            if(!map.containsKey(b)) map.put(b,new ArrayList<>());
+            map.get(a).add(b);
+            map.get(b).add(a);
+        }
+        return dfs(0, 0,hasApple);
+    }
+
+    public int dfs(int root, int parent,List<Boolean> hasApple) {
+        if (!map.containsKey(root)) return 0;
+        int totalTime = 0, childTime = 0;
+        for (int child : map.get(root)) {
+            if (child == parent) continue;
+            childTime = dfs(child,root,hasApple);
+            if (childTime > 0 || hasApple.get(child)) totalTime += childTime + 2;
+        }
+        return totalTime;
+    }
+}

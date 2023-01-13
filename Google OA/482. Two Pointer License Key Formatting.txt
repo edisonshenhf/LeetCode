@@ -1,0 +1,19 @@
+class Solution {
+    public String licenseKeyFormatting(String s, int k) {
+        StringBuilder sb = new StringBuilder();
+        for(int i =s.length()-1,j=0;i>=0;i--){
+            if(s.charAt(i)!='-'){
+                if(s.charAt(i)>='a'&&s.charAt(i)<='z') sb.append((char)(s.charAt(i)-32));
+                else sb.append(s.charAt(i));
+                j++;
+            }
+            if(j==k){
+                sb.append('-');
+                j=0;
+            }
+        }
+        String res = sb.reverse().toString();
+        if(res.length()>0&&res.charAt(0)=='-') res=res.substring(1,res.length());
+        return res;
+    }
+}

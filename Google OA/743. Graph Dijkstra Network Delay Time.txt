@@ -1,0 +1,43 @@
+class Solution {
+    int[][] g;
+    int[] dist;
+    boolean[] st;
+    int n;
+    int k;
+    public int networkDelayTime(int[][] times, int n, int k) {
+        this.n=n;
+        this.k=k;
+        g= new int[n+1][n+1];
+        dist = new int[n+1];
+        st = new boolean[n+1];
+        for(int i=1;i<=n;i++){
+            Arrays.fill(g[i],(int)1e9);
+            g[i][i]=0;
+        }
+        Arrays.fill(dist,(int)1e9);
+        dist[k]=0;
+        for(int[] time:times){
+            g[time[0]][time[1]]=Math.min(g[time[0]][time[1]],time[2]);
+        }
+        return dijkstra();
+    }
+
+    int dijkstra(){
+        for(int i=1;i<=n;i++){
+            int t = -1;
+            for(int j=1;j<=n;j++){
+                if(!st[j]&&(t==-1||dist[t]>dist[j])) t=j;
+            }
+            st[t]=true;
+            for(int j=1;j<=n;j++){
+                    dist[j]=Math.min(dist[j],dist[t]+g[t][j]);
+            }
+        }
+        int res= 0;
+        for(int i=1;i<=n;i++){
+            if(dist[i]==(int)1e9) return -1;
+            res=Math.max(res,dist[i]);
+        }
+        return res;
+    }
+}

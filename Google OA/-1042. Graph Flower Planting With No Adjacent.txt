@@ -1,0 +1,27 @@
+class Solution {
+    public int[] gardenNoAdj(int n, int[][] paths) {
+        List<List<Integer>> g=  new ArrayList<>();
+        for(int i=0;i<n;i++) g.add(new ArrayList<>());
+        for (int[] p:paths){
+            int a = p[0] - 1, b = p[1] - 1;
+            g.get(a).add(b);
+            g.get(b).add(a);
+        }
+        int[] res = new int[n];
+        for (int i = 0; i < n; i++){
+            boolean st[] = new boolean[5];
+            if (g.get(i).size()!=0){
+                for (int j:g.get(i)){ 
+                  st[res[j]] = true;
+               }
+            }
+            for (int j = 1; j <= 4; j++){
+                if (!st[j]){
+                    res[i] = j;
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+}

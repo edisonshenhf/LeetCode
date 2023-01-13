@@ -1,0 +1,21 @@
+class Solution {
+    int res =0;
+    Set<String> set = new HashSet<>();
+    public int numUniqueEmails(String[] emails) {
+        for(String s:emails){
+            int n = s.length();
+            int ed = 0;
+            while(s.charAt(ed)!='@') ed++;
+            String local = s.substring(0,ed);
+            String domain = s.substring(ed,n);
+            StringBuilder sb = new StringBuilder();
+            for(int i=0;i<local.length();i++){
+                if(local.charAt(i)=='+') break;
+                if(local.charAt(i)=='.') continue;
+                sb.append(local.charAt(i));
+            }
+            set.add(sb.toString()+domain);
+        }
+        return set.size();
+    }
+}

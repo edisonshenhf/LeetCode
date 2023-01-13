@@ -1,0 +1,37 @@
+class Solution {
+    public int[] countSubTrees(int n, int[][] edges, String labels) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] edge : edges) {
+            int a = edge[0], b = edge[1];
+            if(!map.containsKey(a)) map.put(a,new ArrayList<>());
+            if(!map.containsKey(b)) map.put(b,new ArrayList<>());
+            map.get(a).add(b);
+            map.get(b).add(a);
+        }
+
+        int[] res = new int[n];
+        char[] label = labels.toCharArray();
+        dfs(0, -1, map, label, res);
+        return res;
+    }
+    public int[] dfs(int node, int parent, Map<Integer, List<Integer>> map,char[] labels, int[] res) {
+        // Store count of all alphabets in the subtree of the node.
+        int[] nodeCounts = new int[26];
+        nodeCounts[labels[node] - 'a'] = 1;
+        if (!map.containsKey(node))
+            return nodeCounts;
+        for (int child:map.get(node)) {
+            if (child == parent) {
+                continue;
+            }
+            int[] childCounts = dfs(child,node,map, labels,res);
+            // Add frequencies of the child node in the parent node's frequency array.
+            for (int i = 0; i < 26; i++) {
+                nodeCounts[i] += childCounts[i];
+            }
+        }
+
+        res[node] = nodeCounts[labels[node] - 'a'];
+        return nodeCounts;
+    }
+}
