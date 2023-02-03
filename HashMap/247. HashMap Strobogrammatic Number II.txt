@@ -1,0 +1,28 @@
+class Solution {
+    List<String> res = new ArrayList<>();
+    HashMap<Character,Character> map = new HashMap<>();
+    public List<String> findStrobogrammatic(int n) {
+        map.put('0','0');
+        map.put('1','1');
+        map.put('6','9');
+        map.put('8','8');
+        map.put('9','6');
+        char[] chars = new char[n];
+        dfs(0,n-1,chars);
+        return res;
+    }
+
+    void dfs(int l,int r,char[] chars){
+        if(l>r){
+            res.add(new String(chars));
+            return;
+        }
+        for(char left:map.keySet()){
+            char right = map.get(left);
+            chars[l]=left;
+            chars[r]=right;
+            if(l==r&&left!=right||chars[0]=='0'&&chars.length>1) continue;
+            dfs(l+1,r-1,chars);
+        }
+    }
+}

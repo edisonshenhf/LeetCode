@@ -1,0 +1,27 @@
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    List<Integer> path = new ArrayList<>();
+    int n;
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        n = nums.length;
+        dfs(0,Integer.MIN_VALUE,nums);
+        return res;
+    }
+
+    void dfs(int u,int last,int[] nums){
+        if(u==n){
+            if(path.size()>=2){
+                res.add(new ArrayList<>(path));
+            }
+            return;
+        }
+        if(nums[u]>=last){
+            path.add(nums[u]);
+            dfs(u+1,nums[u],nums);
+            path.remove(path.size()-1);
+        }
+        if(nums[u]!=last){
+            dfs(u+1,last,nums);
+        }
+    }
+}

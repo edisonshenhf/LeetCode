@@ -1,0 +1,21 @@
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int[] dist = new int[n];
+        Arrays.fill(dist,(int)1e9);
+        dist[src]=0;
+        k++;
+        while(k-->0){
+            int[] temp = new int[n];
+            temp= Arrays.copyOf(dist,n);
+            for(int[] f:flights){
+                int a = f[0];
+                int b = f[1];
+                int c = f[2];
+                temp[b]=Math.min(temp[b],dist[a]+c);
+            }
+            dist=temp;
+        }
+        if(dist[dst]==(int)1e9) return -1;
+        return dist[dst];
+    }
+}

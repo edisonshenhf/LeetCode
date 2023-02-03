@@ -1,0 +1,20 @@
+class Solution {
+    public List<Integer> diffWaysToCompute(String expression) {
+        List<Integer> res = new ArrayList<>();
+        int n = expression.length();
+        for(int i=0;i<expression.length();i++){
+            char c = expression.charAt(i);
+            if(c=='+'||c=='*'||c=='-'){
+                for(int p:diffWaysToCompute(expression.substring(0,i))){
+                    for(int q:diffWaysToCompute(expression.substring(i+1,n))){
+                        if(c=='+') res.add(p+q);
+                        if(c=='-') res.add(p-q);
+                        if(c=='*') res.add(p*q);
+                    }
+                }
+            }
+        }
+        if(res.size()==0) res.add(Integer.parseInt(expression));
+        return res;
+    }
+}

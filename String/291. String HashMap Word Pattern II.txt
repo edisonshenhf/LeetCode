@@ -1,0 +1,36 @@
+class Solution {
+    HashMap<Character,String> mapp = new HashMap<>();
+    HashMap<String,Character> maps = new HashMap<>();
+    public boolean wordPatternMatch(String pattern, String s) {
+        return dfs(0,pattern,0,s);
+    }
+
+    boolean dfs(int u,String pattern,int k,String s){
+        if(u==pattern.length()){
+            if(k==s.length()){
+                return true;
+            }
+            return false;
+        }
+        if(k==s.length()) return false;
+
+        char c = pattern.charAt(u);
+        for(int i=k+1;i<=s.length();i++){
+            String str = s.substring(k,i);
+            if(!mapp.containsKey(c)){
+                if(!maps.containsKey(str)){
+                    mapp.put(c,str);
+                    maps.put(str,c);
+                    if(dfs(u+1,pattern,i,s)) return true;
+                    mapp.remove(c);
+                    maps.remove(str);
+                }
+            }else{
+                if(mapp.get(c).equals(str)&&maps.get(str)==c){
+                    if(dfs(u+1,pattern,i,s)) return true;
+                }
+            }
+        }
+        return false;
+    }
+}

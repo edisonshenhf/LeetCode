@@ -1,0 +1,53 @@
+class SummaryRanges {
+    int MAX_VALUE = 0x3f3f3f3f;
+    TreeSet<int[]> set;
+    public SummaryRanges() {
+        set = new TreeSet<>((o1, o2) -> {
+            if (o1[0] != o2[0]) return o1[0] - o2[0];
+            return o1[1] - o2[1];
+        });
+        set.add(new int[] {-MAX_VALUE, -MAX_VALUE});
+        set.add(new int[] {MAX_VALUE, MAX_VALUE});
+    }
+    
+    public void addNum(int val) {
+        int[] l = set.lower(new int[] {val, MAX_VALUE}); // 小于等于 val 的区间
+        int[] r = set.higher(new int[] {val, MAX_VALUE}); // 大于 val 的区间
+        if (l[1] >= val) return;
+        if (l[1] == val - 1 && r[0] == val + 1) {
+            // [ , x - 1] x [x + 1, ]
+            set.add(new int[] {l[0], r[1]});
+            set.remove(l);
+            set.remove(r);
+        } else if (l[1] == val - 1) {
+            // [ , x - 1] x
+            set.add(new int[] {l[0], val});
+            set.remove(l);
+        } else if (r[0] == val + 1) {
+            // x [x + 1, ]
+            set.add(new int[] {val, r[1]});
+            set.remove(r);
+        } else {
+            // [x, x]
+            set.add(new int[] {val, val});
+        }
+    }
+    
+    public int[][] getIntervals() {
+        int n = set.size();
+        int[][] ret = new int[n - 2][2];
+        int idx = 0;
+        for (int[] arr : set) {
+            if (arr[0] == -MAX_VALUE || arr[0] == MAX_VALUE) continue;
+            ret[idx][0] = arr[0];
+            ret[idx++][1] = arr[1];
+        }
+        return ret;
+    }
+}
+/**
+ * Your SummaryRanges object will be instantiated and called as such:
+ * SummaryRanges obj = new SummaryRanges();
+ * obj.addNum(value);
+ * int[][] param_2 = obj.getIntervals();
+ */

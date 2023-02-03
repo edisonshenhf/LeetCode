@@ -1,0 +1,120 @@
+class LFUCache {
+    HashMap<Integer,Node> nMap = new HashMap<>();
+    HashMap<Integer,Block> bMap = new HashMap<>();
+    int n;
+    Block headBlock = new Block(0);
+    Block tailBlock = new Block(Integer.MAX_VALUE);
+    public LFUCache(int capacity) {
+        n=capacity;
+        headBlock.right=tailBlock;
+        tailBlock.left=headBlock;
+    }
+    
+    public int get(int key) {
+        if(!bMap.containsKey(key)) return -1;
+        Block block = bMap.get(key);
+        Node node = nMap.get(key);
+        block.remove(node);
+        if(block.right.cnt!=block.cnt+1){
+            insert(block);
+        }
+        block.right.insert(node);
+        bMap.put(key,block.right);
+        if(block.isEmpty()) remove(block);
+        return node.val;
+    }
+    
+    public void put(int key, int value) {
+        if(n==0) return;
+        if(bMap.containsKey(key)){
+            Block block = bMap.get(key);
+            Node node = nMap.get(key);
+            block.remove(node);
+            if(block.right.cnt!=block.cnt+1){
+            insert(block);
+            }
+            node.val=value;
+            nMap.put(key,node);
+            block.right.insert(node);
+            bMap.put(key,block.right);
+            if(block.isEmpty()) remove(block);
+        }else {
+            if(nMap.size()==n){
+                Node node = headBlock.right.tail.left;
+                headBlock.right.remove(node);
+                if(headBlock.right.isEmpty()) remove(headBlock.right);
+                bMap.remove(node.key);
+                nMap.remove(node.key);
+            }
+            Node p = new Node(key,value);
+            if(headBlock.right.cnt!=1) insert(headBlock);
+            headBlock.right.insert(p);
+            nMap.put(key,p);
+            bMap.put(key,headBlock.right);
+        }
+    }
+
+    void remove(Block p){
+        p.right.left=p.left;
+        p.left.right=p.right;
+    }
+
+    void insert(Block p){
+        Block newBlock = new Block(p.cnt+1);
+        p.right.left=newBlock;
+        newBlock.right=p.right;
+        newBlock.left=p;
+        p.right=newBlock;
+    }
+}
+
+class Node{
+    int val;
+    int key;
+    Node left;
+    Node right;
+    public Node(int key,int val){
+        this.val=val;
+        this.key=key;
+        left=right=null;
+    }
+}
+
+class Block{
+    int cnt;
+    Block left;
+    Block right;
+    Node head;
+    Node tail;
+    public Block(int cnt){
+        this.cnt=cnt;
+        left=right=null;
+        head=new Node(-1,-1);
+        tail=new Node(-1,-1);
+        head.right=tail;
+        tail.left=head;
+    }
+
+    void remove(Node p){
+        p.left.right=p.right;
+        p.right.left=p.left;
+    }
+
+    void insert(Node p){
+        head.right.left=p;
+        p.right=head.right;
+        p.left=head;
+        head.right=p;
+    }
+
+    boolean isEmpty(){
+        return head.right==tail;
+    }
+}
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache obj = new LFUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */

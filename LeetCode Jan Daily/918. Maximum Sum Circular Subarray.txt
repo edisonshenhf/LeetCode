@@ -1,0 +1,23 @@
+class Solution {
+    public int maxSubarraySumCircular(int[] nums) {
+        int n = nums.length, m = n << 1;
+        int[] sum = new int[m + 1];
+        for (int i = 1; i <= m; ++i) {
+            sum[i] = sum[i - 1] + nums[(i - 1) % n];
+        }
+        Deque<Integer> q = new LinkedList<>();
+        q.add(0);
+        int max = nums[0];
+        for (int i = 1; i <= m; ++i) {
+            if (!q.isEmpty() && q.peek() < i - n) {
+                q.poll();
+            }
+            max = Math.max(max, sum[i] - sum[q.peek()]);
+            while (!q.isEmpty() && sum[q.peekLast()] > sum[i]) {
+                q.pollLast();
+            }
+            q.add(i);
+        }
+        return max;
+    }
+}

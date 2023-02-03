@@ -1,0 +1,45 @@
+class Solution {
+    Stack<Integer> num = new Stack<>();
+    Stack<Character> op = new Stack<>();
+    public int calculate(String s) {
+        s="0"+s;
+        for(int i=0;i<s.length();i++){
+            char c = s.charAt(i);
+            if(c==' ') continue;
+            else if(c=='('){
+                op.add('(');
+                int j = i+1;
+                if(j<s.length()&&s.charAt(j)=='-') num.push(0);
+                else{
+                    while(j<s.length()&&s.charAt(j)==' ') j++;
+                    if(s.charAt(j)=='-') num.push(0);
+                }
+            }else if(c==')'){
+                while(!op.isEmpty()&&op.peek()!='(') eval();
+                op.pop();
+            }else if(c>='0'&&c<='9'){
+                int val =0;
+                int j =i;
+                while(j<s.length()&&s.charAt(j)>='0'&&s.charAt(j)<='9'){
+                    val=val*10+s.charAt(j)-'0';
+                    j++;
+                }
+                num.add(val);
+                i=j-1;
+            }else{
+                while(!op.isEmpty()&&op.peek()!='(') eval();
+                op.push(c);
+            }
+        }
+        while(!op.isEmpty()) eval();
+        return num.pop();
+    }
+
+    void eval(){
+        int a = num.pop();
+        int b = num.pop();
+        char c = op.pop();
+        if(c=='+') num.add(a+b);
+        else num.add(b-a);
+    }
+}
